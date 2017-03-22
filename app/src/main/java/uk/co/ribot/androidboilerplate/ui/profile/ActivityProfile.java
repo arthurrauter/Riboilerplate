@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -53,5 +54,16 @@ public class ActivityProfile extends BaseActivity implements ProfileMvpView {
         tvBio.setText(p.bio());
         tvEmail.setText(p.email());
         tvBirth.setText(p.dateOfBirth().toString());
+    }
+
+    //BONUS
+
+    @Override
+    public void sendEmail(Intent i) {
+        startActivity(Intent.createChooser(i, "Send email..."));
+    }
+
+    public void sendEmail(View view) {
+        mProfilePresenter.sendEmail(view);
     }
 }

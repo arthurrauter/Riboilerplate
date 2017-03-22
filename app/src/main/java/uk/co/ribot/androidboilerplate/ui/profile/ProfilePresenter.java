@@ -1,6 +1,8 @@
 package uk.co.ribot.androidboilerplate.ui.profile;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
 import android.widget.ImageView;
 
 import butterknife.BindView;
@@ -15,6 +17,8 @@ import uk.co.ribot.androidboilerplate.ui.base.BasePresenter;
 
 public class ProfilePresenter extends BasePresenter<ProfileMvpView> {
 
+    Ribot mRibot;
+
     public void ProfilePresenter() {}
 
     public void loadProfileInfo(Intent intent) {
@@ -22,9 +26,16 @@ public class ProfilePresenter extends BasePresenter<ProfileMvpView> {
         if (intent == null) return;
         if (!intent.hasExtra("PROFILE_INFO")) return;
 
-        Ribot ribot = intent.getParcelableExtra("PROFILE_INFO");
+        mRibot = intent.getParcelableExtra("PROFILE_INFO");
 
-        getMvpView().showProfileInfo(ribot.profile());
+        getMvpView().showProfileInfo(mRibot.profile());
+    }
+
+    public void sendEmail(View view) {
+        Intent i = new Intent(Intent.ACTION_SENDTO);
+        i.setData(Uri.parse("mailto:" + mRibot.profile().email()));
+
+        getMvpView().sendEmail(i);
     }
 
 }
