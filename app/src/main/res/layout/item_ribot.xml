@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <View
-            android:id="@+id/view_hex_color"
+        <ImageView
+            android:id="@+id/avatar_view"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
@@ -27,7 +27,7 @@
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/view_hex_color"
+            android:layout_toRightOf="@id/avatar_view"
             android:textSize="@dimen/text_body"
             tools:text="Antony Ribot" />
 
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_name"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/view_hex_color"
+            android:layout_toRightOf="@id/avatar_view"
             android:textSize="@dimen/text_small_body"
             tools:text="developer" />
 

@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,19 @@ public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewH
     @Override
     public void onBindViewHolder(final RibotViewHolder holder, int position) {
         Ribot ribot = mRibots.get(position);
-        holder.hexColorView.setBackgroundColor(Color.parseColor(ribot.profile().hexColor()));
+
+        if (ribot.profile().avatar() != null) {
+            //Here I have the URL to the Avatar, if it is available
+            Glide.with(holder.avatarView.getContext()).load(ribot.profile().avatar()).into(holder.avatarView);
+            //It's the first time I use Glide, but it was conveniently linked in the github description of the android-boilerplate
+            //Getting the context from the view feels dirty, but seems to be a simple solution.
+            //Other options would be (A) Pass it in the Adapter Constructor or (B) Inject it
+            //I can't do A because the Adapter itself is being injected
+            //I can't do B because I am not that familiar with Dagger and Injections
+        } else {
+            holder.avatarView.setBackgroundColor(Color.parseColor(ribot.profile().hexColor()));
+        }
+
         holder.nameTextView.setText(String.format("%s %s",
                 ribot.profile().name().first(), ribot.profile().name().last()));
         holder.emailTextView.setText(ribot.profile().email());
@@ -53,7 +68,7 @@ public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewH
 
     class RibotViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.view_hex_color) View hexColorView;
+        @BindView(R.id.avatar_view) ImageView avatarView;
         @BindView(R.id.text_name) TextView nameTextView;
         @BindView(R.id.text_email) TextView emailTextView;
 
