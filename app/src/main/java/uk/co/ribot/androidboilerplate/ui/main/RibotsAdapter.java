@@ -1,7 +1,11 @@
 package uk.co.ribot.androidboilerplate.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.co.ribot.androidboilerplate.R;
 import uk.co.ribot.androidboilerplate.data.model.Ribot;
+import uk.co.ribot.androidboilerplate.ui.profile.ActivityProfile;
+import uk.co.ribot.androidboilerplate.ui.profile.ProfilePresenter;
 
 public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewHolder> {
 
@@ -59,6 +65,7 @@ public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewH
         holder.nameTextView.setText(String.format("%s %s",
                 ribot.profile().name().first(), ribot.profile().name().last()));
         holder.emailTextView.setText(ribot.profile().email());
+        holder.i = position;
     }
 
     @Override
@@ -68,6 +75,8 @@ public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewH
 
     class RibotViewHolder extends RecyclerView.ViewHolder {
 
+        public int i;
+        @BindView(R.id.card_view) CardView cardView;
         @BindView(R.id.avatar_view) ImageView avatarView;
         @BindView(R.id.text_name) TextView nameTextView;
         @BindView(R.id.text_email) TextView emailTextView;
@@ -75,6 +84,17 @@ public class RibotsAdapter extends RecyclerView.Adapter<RibotsAdapter.RibotViewH
         public RibotViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            cardView.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    Context context = cardView.getContext();
+                    Intent intent = new Intent(context, ActivityProfile.class);
+                    intent.putExtra("PROFILE_INFO", mRibots.get(i));
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
